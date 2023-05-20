@@ -10,11 +10,14 @@ export default async function sendNotif(req, res) {
         Authorization: JSON.parse(req.body).user.token, // Set the Authorization header
       },
     });
+
+    //console.log(userIds)
     
     const data = await subs.json();
+    //console.log(data.items)
     
-    const filteredItems = data.items.filter(item => item.id.includes(item.id));
-    console.log(filteredItems)
+    const filteredItems = data.items.filter(item => userIds.includes(item.user));
+    //console.log(filteredItems)
     sendNotifications(filteredItems, JSON.parse(req.body).msg);
     
     res.status(200).send(filteredItems);
