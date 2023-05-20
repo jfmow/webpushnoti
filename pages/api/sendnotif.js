@@ -11,15 +11,13 @@ export default async function sendNotif(req, res) {
       },
     });
 
-    console.log(userIds)
+    console.log('ui',userIds)
     
     const data = await subs.json();
-    console.log(data.items)
     
     const filteredItems = data.items.filter(item => userIds.includes(item.user));
-    console.log(filteredItems)
+    console.log('fi',filteredItems)
     sendNotifications(filteredItems, JSON.parse(req.body).msg);
-    
     res.status(200).send(filteredItems);
   } catch (error) {
     console.log(error);
