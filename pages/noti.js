@@ -5,11 +5,12 @@ const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETURL)
 pb.autoCancellation(false);
 export default function Home() {
   const [msg, setMessage] = useState('')
+  const [msg_body, setMessageBody] = useState('')
   async function notifyAll() {
     const response = await fetch('/api/notify-all', {
       method: 'POST',
       
-      body: JSON.stringify({ msg: { title: msg }, user: {token: pb.authStore.token, id: pb.authStore.model.id} })
+      body: JSON.stringify({ msg: { title: msg, body: msg_body }, user: {token: pb.authStore.token, id: pb.authStore.model.id} })
     });
     if (response.status === 409) {
       document.getElementById('notification-status-message').textContent =
@@ -19,11 +20,11 @@ export default function Home() {
   async function notifyMe() {
     const registration = await navigator.serviceWorker.getRegistration();
     const subscription = await registration.pushManager.getSubscription();
-    console.log(JSON.stringify({ msg: { title: msg }, endpoint: subscription.endpoint }))
+    console.log(JSON.stringify({ msg: { title: msg, body: msg_body }, endpoint: subscription.endpoint }))
 
     const response = await fetch('/api/sendnotif', {
       method: 'POST',
-      body: JSON.stringify({ msg: { title: msg }, endpoint: subscription.endpoint, user: {token: pb.authStore.token, id: pb.authStore.model.id} })
+      body: JSON.stringify({ msg: { title: msg, body: msg_body }, endpoint: subscription.endpoint, user: {token: pb.authStore.token, id: pb.authStore.model.id} })
     });
   }
   return (
@@ -63,8 +64,11 @@ export default function Home() {
         Unsubscribe from push
       </button>
       <h2>Notifications</h2>
-      <textarea onChange={(e) => (setMessage(e.target.value))}
-        id="notification-status-message">No notifications sent yet.</textarea>
+      <input type="text" onChange={(e) => (setMessage(e.target.value))}
+        id="notification-status-message" value={msg} placeholder="Msg title..."/>
+      <h2>Notifications</h2>
+      <input type="text" onChange={(e) => (setMessageBody(e.target.value))}
+        id="notification-status-message" value={msg} placeholder="Msg body..."/>
       <button
         id="notify-me"
         onClick={notifyMe}
