@@ -68,7 +68,7 @@ export default function Home() {
         id="notification-status-message" value={msg} placeholder="Msg title..."/>
       <h2>Notifications</h2>
       <input type="text" onChange={(e) => (setMessageBody(e.target.value))}
-        id="notification-status-message" value={msg} placeholder="Msg body..."/>
+        id="notification-status-message" value={msg_body} placeholder="Msg body..."/>
       <button
         id="notify-me"
         onClick={notifyMe}
