@@ -16,6 +16,13 @@ export default function Notifcation() {
             setNotifications(records)
         }
         getNotif()
+        if (window) {
+            async function swReg(){
+            await navigator.serviceWorker.register('service-worker.js');
+            toast.success('Sw enabled')
+            }
+            swReg()
+        }
     }, [])
 
     async function dismissNotif(noti) {
@@ -66,7 +73,7 @@ export default function Notifcation() {
         const data = {
             "notis": false
         };
-        
+
         const record = await pb.collection('users').update(pb.authStore.model.id, data);
         toast.info('Unsubbed from notis')
     }
