@@ -73,7 +73,6 @@ export default function home() {
       </Head>
       <div className={styles.header}>
         <h1>News</h1>
-        <Link href='/u/users/noti'>noti</Link>
       </div>
       {isLoading ? (
         <p>Loading...</p>
