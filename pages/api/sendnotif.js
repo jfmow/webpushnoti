@@ -1,20 +1,25 @@
-import {sendNotifications} from "@/lib/sendNotifications";
-export default async function sendNotif(req, res){
+import { sendNotifications } from "@/lib/sendNotifications";
+
+export default async function sendNotif(req, res) {
   try {
-    console.log(JSON.parse(req.body))
-    const subs = await fetch(`https://news1.suddsy.dev/api/collections/subscriptions/records?filter=(user='${JSON.parse(req.body).notif.user}')`, {
+    const userIds = JSON.parse(req.body).user.id; // Get the user IDs array from req.body
+    
+    const subs = await fetch(`https://news1.suddsy.dev/api/collections/subscriptions/records`, {
       method: "GET",
       headers: {
         Authorization: JSON.parse(req.body).user.token, // Set the Authorization header
-      }
+      },
     });
-    const data = await subs.json()
-    sendNotifications(data.items, JSON.parse(req.body).msg)
-    res.status(200).send('Done 2')
+    
+    const data = await subs.json();
+    
+    const filteredItems = data.items.filter(item => item.id.includes(item.id));
+    console.log(filteredItems)
+    sendNotifications(filteredItems, JSON.parse(req.body).msg);
+    
+    res.status(200).send('Done 2');
   } catch (error) {
-    console.log(error)
-    res.status(500).send('Failed to send notif')
+    console.log(error);
+    res.status(500).send('Failed to send notif');
   }
 }
-
-

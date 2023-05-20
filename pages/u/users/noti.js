@@ -1,32 +1,192 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import Loader from "@/components/Loader";
+import styles from './Admin.module.css';
+
 import PocketBase from 'pocketbase';
 const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETURL)
 pb.autoCancellation(false);
 export default function Home() {
   const [msg, setMessage] = useState('')
   const [msg_body, setMessageBody] = useState('')
+  const [isLoading, setIsLoading] = useState(true);
+  const [userList, setUserList] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+
+
+  useEffect(() => {
+    async function getUserList() {
+      const records = await pb.collection('users').getFullList({
+        sort: '-created',
+      });
+      setUserList(records);
+    }
+
+    async function authUpdate() {
+      try {
+        const authData = await pb.collection('users').authRefresh();
+        if (!pb.authStore.isValid) {
+          pb.authStore.clear();
+          return window.location.replace("/auth/login");
+        }
+        if (!authData.record?.admin) {
+          return window.location.replace('/');
+        } else {
+          getUserList();
+          setIsLoading(false);
+        }
+      } catch (error) {
+        pb.authStore.clear();
+        return window.location.replace('/auth/login');
+      }
+    }
+
+    authUpdate();
+  }, []);
+
+
   async function notifyAll() {
     const response = await fetch('/api/notify-all', {
       method: 'POST',
-      
-      body: JSON.stringify({ msg: { title: msg, body: msg_body }, user: {token: pb.authStore.token, id: pb.authStore.model.id} })
+
+      body: JSON.stringify({ msg: { title: msg, body: msg_body }, user: { token: pb.authStore.token, id: pb.authStore.model.id } })
     });
     if (response.status === 409) {
       document.getElementById('notification-status-message').textContent =
         'There are no subscribed endpoints to send messages to, yet.';
     }
+    if (response.status != 200) {
+      toast.warning('Failed to send!')
+    }
   }
-  async function notifyMe() {
-    const registration = await navigator.serviceWorker.getRegistration();
-    const subscription = await registration.pushManager.getSubscription();
-    console.log(JSON.stringify({ msg: { title: msg, body: msg_body }, endpoint: subscription.endpoint }))
 
-    const response = await fetch('/api/sendnotif', {
-      method: 'POST',
-      body: JSON.stringify({ msg: { title: msg, body: msg_body }, endpoint: subscription.endpoint, user: {token: pb.authStore.token, id: pb.authStore.model.id}, notif:{user: pb.authStore.model.id} })
-    });
+
+  function addUser(userId) {
+    if (users.includes(userId)) {
+      setUsers(users.filter((id) => id !== userId));
+    } else {
+      setUsers([...users, userId]);
+    }
   }
+
+  function handleSelectAll() {
+    if (selectAll) {
+      setUsers([]);
+    } else {
+      const allUserIds = userList.map((user) => user.id);
+      setUsers(allUserIds);
+    }
+    setSelectAll(!selectAll);
+  }
+
+  async function postNoti() {
+    if (!msg || !msg_body) {
+      return toast.warning('Please fill out all inputs!');
+    }
+    if (users.length === 0) {
+      return toast.warning('Please select at least one user!');
+    }
+    
+    try {
+      const response = await fetch('/api/sendnotif', {
+        method: 'POST',
+  
+        body: JSON.stringify({ msg: { title: msg, body: msg_body }, user: { token: pb.authStore.token, id: users } })
+      });
+      if (response.status === 409) {
+        document.getElementById('notification-status-message').textContent =
+          'There are no subscribed endpoints to send messages to, yet.';
+      }
+      if (response.status !== 200) {
+        toast.warning('Failed to send!')
+      }
+      setMessage('');
+      setMessageBody('');
+      toast.success('Posted!');
+    } catch (err) {
+      console.log(err)
+      toast.error('Failed to post');
+    }
+  }
+
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1>Notify</h1>
+        </div>
+
+        <div className={styles.user_list_container}>
+          <div className={styles.userlist}>
+            <div className={styles.notdiv}>
+              <input
+                className={styles.notinput}
+                value={msg}
+                type="text"
+                onChange={(event) => setMessage(event.target.value)}
+                placeholder="Title"
+              />
+              <input
+                className={styles.notinput}
+                value={msg_body}
+                type="text"
+                onChange={(event) => setMessageBody(event.target.value)}
+                placeholder="Message"
+              />
+
+              <h3>Users</h3>
+              <div className={styles.useroptions}>
+                <div className={styles.optionuser}>
+                  <input
+                    onChange={handleSelectAll} // Added select all handler
+                    type="checkbox"
+                    checked={selectAll}
+                  />
+                  <h5>Select All</h5>
+                </div>
+                {userList.map((user) => (
+                  <div className={styles.optionuser} key={user.id}>
+                    <input
+                      onChange={(event) => addUser(event.target.value)}
+                      type="checkbox"
+                      value={user.id}
+                      checked={users.includes(user.id)}
+                    />
+                    <h5>{user.username}</h5>
+                  </div>
+                ))}
+              </div>
+              <button onClick={notifyAll} type="button" className={`${styles.buttondefault} ${styles.buttonred}`}>
+                Send to all users
+              </button>
+              <button type="button" onClick={postNoti} className={styles.buttondefault}>
+                Send to select users
+              </button>
+              <button
+                id="subscribe"
+                onClick={subscribeToPush}
+              >
+                Subscribe to push
+              </button>
+              <button
+                id="unsubscribe"
+                onClick={unsubscribeFromPush}
+              >
+                Unsubscribe from push
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <>
       <h1>
@@ -65,10 +225,10 @@ export default function Home() {
       </button>
       <h2>Notifications</h2>
       <input type="text" onChange={(e) => (setMessage(e.target.value))}
-        id="notification-status-message" value={msg} placeholder="Msg title..."/>
+        id="notification-status-message" value={msg} placeholder="Msg title..." />
       <h2>Notifications</h2>
       <input type="text" onChange={(e) => (setMessageBody(e.target.value))}
-        id="notification-status-message" value={msg_body} placeholder="Msg body..."/>
+        id="notification-status-message" value={msg_body} placeholder="Msg body..." />
       <button
         id="notify-me"
         onClick={notifyMe}
@@ -86,6 +246,8 @@ export default function Home() {
 }
 
 
+
+
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
 
 /* Push notification logic. */
@@ -93,13 +255,13 @@ const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
 async function registerServiceWorker() {
   console.log('hg')
   await navigator.serviceWorker.register('service-worker.js');
-  updateUI();
+  toast.success('Sw enabled')
 }
 
 async function unregisterServiceWorker() {
   const registration = await navigator.serviceWorker.getRegistration();
   await registration.unregister();
-  updateUI();
+  toast.success('Sw removed')
 }
 
 async function subscribeToPush() {
@@ -112,7 +274,7 @@ async function subscribeToPush() {
     });
     console.log(subscription)
     postToServer('/api/add-subscription', subscription);
-    updateUI();
+    toast.info('Subscribed to notis')
   } catch (err) {
     console.log(err)
     return toast.error('Permision denied. Enable notifs')
@@ -127,69 +289,8 @@ async function unsubscribeFromPush() {
     endpoint: subscription.endpoint
   });
   await subscription.unsubscribe();
-  updateUI();
+  toast.info('Unsubbed from notis')
 }
-
-
-
-
-
-/* UI logic. */
-
-async function updateUI() {
-  const registrationButton = document.getElementById('register');
-  const unregistrationButton = document.getElementById('unregister');
-  const registrationStatus = document.getElementById('registration-status-message');
-  const subscriptionButton = document.getElementById('subscribe');
-  const unsubscriptionButton = document.getElementById('unsubscribe');
-  const subscriptionStatus = document.getElementById('subscription-status-message');
-  const notifyMeButton = document.getElementById('notify-me');
-  const notificationStatus = document.getElementById('notification-status-message');
-  // Disable all buttons by default.
-  registrationButton.disabled = true;
-  unregistrationButton.disabled = true;
-  subscriptionButton.disabled = true;
-  unsubscriptionButton.disabled = true;
-  notifyMeButton.disabled = true;
-  // Service worker is not supported so we can't go any further.
-  if (!'serviceWorker' in navigator) {
-    registrationStatus.textContent = "This browser doesn't support service workers.";
-    subscriptionStatus.textContent = "Push subscription on this client isn't possible because of lack of service worker support.";
-    notificationStatus.textContent = "Push notification to this client isn't possible because of lack of service worker support.";
-    return;
-  }
-  const registration = await navigator.serviceWorker.getRegistration();
-  // Service worker is available and now we need to register one.
-  if (!registration) {
-    registrationButton.disabled = false;
-    registrationStatus.textContent = 'No service worker has been registered yet.';
-    subscriptionStatus.textContent = "Push subscription on this client isn't possible until a service worker is registered.";
-    notificationStatus.textContent = "Push notification to this client isn't possible until a service worker is registered.";
-    return;
-  }
-  registrationStatus.textContent =
-    `Service worker registered. Scope: ${registration.scope}`;
-  const subscription = await registration.pushManager.getSubscription();
-  // Service worker is registered and now we need to subscribe for push
-  // or unregister the existing service worker.
-  if (!subscription) {
-    unregistrationButton.disabled = false;
-    subscriptionButton.disabled = false;
-    subscriptionStatus.textContent = 'Ready to subscribe this client to push.';
-    notificationStatus.textContent = 'Push notification to this client will be possible once subscribed.';
-    return;
-  }
-  // Service worker is registered and subscribed for push and now we need
-  // to unregister service worker, unsubscribe to push, or send notifications.
-  subscriptionStatus.textContent =
-    `Service worker subscribed to push. Endpoint: ${subscription.endpoint}`;
-  notificationStatus.textContent = 'Ready to send a push notification to this client!';
-  unregistrationButton.disabled = false;
-  notifyMeButton.disabled = false;
-  unsubscriptionButton.disabled = false;
-}
-
-/* Utility functions. */
 
 // Convert a base64 string to Uint8Array.
 // Must do this so the server can understand the VAPID_PUBLIC_KEY.
@@ -212,7 +313,7 @@ async function postToServer(url, data) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({data, user: {token: pb.authStore.token, id: pb.authStore.model.id}})
+    body: JSON.stringify({ data, user: { token: pb.authStore.token, id: pb.authStore.model.id } })
   });
 }
 

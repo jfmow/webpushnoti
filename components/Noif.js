@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import styles from '@/styles/notification.module.css'
 const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETURL);
 pb.autoCancellation(false);
+import { toast } from "react-toastify";
 
 export default function Notifcation() {
     const [notifcations, setNotifications] = useState([])
@@ -29,6 +30,57 @@ export default function Notifcation() {
             return prevNotif.filter((n) => n.id !== noti);
         });
     }
+    const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+
+    async function subscribeToPush() {
+        const registration = await navigator.serviceWorker.getRegistration();
+        try {
+            Notification.requestPermission()
+            const subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlB64ToUint8Array(VAPID_PUBLIC_KEY)
+            });
+            console.log(subscription)
+            postToServer('/api/add-subscription', subscription);
+            const data = {
+                "notis": true
+            };
+
+            const record = await pb.collection('users').update(pb.authStore.model.id, data);
+            toast.info('Subscribed to notis')
+
+        } catch (err) {
+            console.log(err)
+            return toast.error('Permision denied. Enable notifs')
+        }
+
+    }
+
+    async function unsubscribeFromPush() {
+        const registration = await navigator.serviceWorker.getRegistration();
+        const subscription = await registration.pushManager.getSubscription();
+        postToServer('/api/remove-subscription', {
+            endpoint: subscription.endpoint
+        });
+        await subscription.unsubscribe();
+        const data = {
+            "notis": false
+        };
+        
+        const record = await pb.collection('users').update(pb.authStore.model.id, data);
+        toast.info('Unsubbed from notis')
+    }
+
+    async function postToServer(url, data) {
+        let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data, user: { token: pb.authStore.token, id: pb.authStore.model.id } })
+        });
+    }
+
 
 
 
@@ -41,9 +93,15 @@ export default function Notifcation() {
 
                     </>
                 )}
-                <div className={`${listOpen ? (styles.container):(styles.container_closed)}`} onClick={() => setListOpen(false)}>
+                <div className={`${listOpen ? (styles.container) : (styles.container_closed)}`} onClick={() => setListOpen(false)}>
                     <div className={styles.main} onClick={(event) => event.stopPropagation()}>
-                        <button onClick={()=>setListOpen(false)} className={styles.exit}><svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></button>
+                        {pb.authStore.model.notis ? (
+                            <button onClick={unsubscribeFromPush}>Disable push notis?</button>
+
+                        ) : (
+                            <button onClick={subscribeToPush}>Push notis?</button>
+                        )}
+                        <button onClick={() => setListOpen(false)} className={styles.exit}><svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" /></svg></button>
                         {notifcations.length === 0 ? (
                             <h5>All caught up</h5>
                         ) : (
@@ -51,7 +109,7 @@ export default function Notifcation() {
                                 {notifcations.map((noti) => {
                                     return (<>
                                         <div className={styles.notifcation}>
-                                            
+
                                             <div className={styles.text}>
                                                 {noti.title && (
                                                     <h4>{noti.title}</h4>
@@ -73,3 +131,16 @@ export default function Notifcation() {
         </>
     )
 }
+
+const urlB64ToUint8Array = (base64String) => {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+};

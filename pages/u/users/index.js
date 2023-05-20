@@ -117,7 +117,7 @@ export default function UserListAdmin() {
                         <div className={styles.filter}>
                             <input type="text" placeholder="Search by username" value={searchTerm} onChange={handleSearch} />
                             <button className={`${styles.buttondefault}`} type="button" onClick={() => setEnableServiceModeModal(true)}>Enable service mode</button>
-                            <Link href='/u/users/notify' className={`${styles.buttondefault}`} >Notify users</Link>
+                            <Link href='/u/users/noti' className={`${styles.buttondefault}`} >Notify users</Link>
                             {enableServiceModeModal &&
                                 (
                                     <>
