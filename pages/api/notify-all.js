@@ -8,6 +8,7 @@ export default async function notifAll(req, res) {
     }
   });
   const data = await subs.json()
+  console.log(data.items)
   if (data.items.length > 0) {
     sendNotifications(data.items, JSON.parse(req.body).msg)
     res.status(200).send('Success');
