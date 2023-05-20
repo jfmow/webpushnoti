@@ -24,7 +24,7 @@ export default function Home() {
 
     const response = await fetch('/api/sendnotif', {
       method: 'POST',
-      body: JSON.stringify({ msg: { title: msg, body: msg_body }, endpoint: subscription.endpoint, user: {token: pb.authStore.token, id: pb.authStore.model.id} })
+      body: JSON.stringify({ msg: { title: msg, body: msg_body }, endpoint: subscription.endpoint, user: {token: pb.authStore.token, id: pb.authStore.model.id}, notif:{user: pb.authStore.model.id} })
     });
   }
   return (
