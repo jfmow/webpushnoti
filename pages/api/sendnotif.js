@@ -2,7 +2,7 @@ import {sendNotifications} from "@/lib/sendNotifications";
 export default async function sendNotif(req, res){
   try {
     console.log(JSON.parse(req.body))
-    const subs = await fetch(`https://news1.suddsy.dev/api/collections/subscriptions/records?filter=(user='${req.body.notif.user}')`, {
+    const subs = await fetch(`https://news1.suddsy.dev/api/collections/subscriptions/records?filter=(user='${JSON.parse(req.body).notif.user}')`, {
       method: "GET",
       headers: {
         Authorization: JSON.parse(req.body).user.token, // Set the Authorization header
