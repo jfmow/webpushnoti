@@ -1,0 +1,118 @@
+.container_closed{
+    position: fixed;
+    /* width: 100%; */
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100vh;
+}
+.container_closed .exit{
+    display: none !important;
+}
+.container{
+    
+    transition: 1s all ease-in-out;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    /* background: radial-gradient(rgba(1, 65, 255, 0.3), transparent); */
+    /* background: #fff; */
+    /* box-shadow: -4px 0px 19px 10px #dedede;*/
+}
+.main{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: #000000;
+    background: #fff;
+    /* padding: 2em; */
+    height: -moz-fit-content;
+    height: 90%;
+    max-height: 90%;
+    padding: 0.5em;
+    /* padding: 2em; */
+    border-radius: 10px 0 0 10px;
+    overflow-y: scroll;
+    /* position: relative; */
+    gap: 0.2em;
+    /* border: 3px solid white;*/
+
+}
+.exit{
+        /* position: absolute; */
+    /* top: 0; */
+    /* right: 0; */
+    background: none;
+    border: none;
+    fill: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    display: none;
+}
+.openbtn{
+
+}
+.open{
+    background: none;
+    border: none;
+    cursor: pointer;
+    fill: #fff;
+}
+.notifcation, .report{
+    background-color: #dedede;
+    border-left-width: 4px;
+    /* border-color: rgb(255 255 255); */
+    border-radius: 0.375rem;
+    border: 3px solid white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #000000;
+}
+.text{
+    gap: 0.5em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.report h4{
+    color: #ff4747;
+}
+.text p{
+    
+  color: rgb(0, 0, 0);
+}
+
+.dismiss{
+    background: none;
+    border: none;
+    fill: rgb(109, 109, 109);
+    cursor: pointer;
+    padding: 5px;
+
+}
+
+@media(max-width: 800px){
+    .main{
+        width: 100%;
+        border: none;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+    }
+    .exit{
+        display: flex;
+    }
+
+}

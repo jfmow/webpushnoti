@@ -1,0 +1,87 @@
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  min-height: fit-content;
+  justify-items: center;
+  border-top: 1px solid #7e7f9a;
+  padding: 1em 1em 2em 1em;
+  position: relative;
+  background: #0d1821;
+  row-gap: 1em;
+}
+
+.footer>p {
+  margin: 0;
+  padding: 0;
+  color: darkcyan;
+
+}
+
+
+.footer>p>a:hover {
+  cursor: none;
+}
+
+.credits {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.credits h3,
+.credits h5 {
+  margin: 0;
+}
+
+.credits ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+
+
+.container {
+  position: relative;
+}
+
+.customshapedividerbottom1682285930 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.customshapedividerbottom1682285930 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 100px;
+}
+
+.customshapedividerbottom1682285930 .shapefill {
+  fill: #7926ff;
+}
+
+@media (max-width: 600px) {
+  .footer {
+    font-size: 12px;
+    min-height: 10vh;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3em;
+  }
+
+  .credits {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .customshapedividerbottom1682285930 svg {
+    height: 50px;
+  }
+}

@@ -9,30 +9,24 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 
-  --primary-glow: conic-gradient(
-    from 180deg at 50% 50%,
-    #16abff33 0deg,
-    #0885ff33 55deg,
-    #54d6ff33 120deg,
-    #0071ff33 160deg,
-    transparent 360deg
-  );
-  --secondary-glow: radial-gradient(
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0)
-  );
+  --primary-glow: conic-gradient(from 180deg at 50% 50%,
+      #16abff33 0deg,
+      #0885ff33 55deg,
+      #54d6ff33 120deg,
+      #0071ff33 160deg,
+      transparent 360deg);
+  --secondary-glow: radial-gradient(rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0));
 
   --tile-start-rgb: 239, 245, 249;
   --tile-end-rgb: 228, 232, 233;
-  --tile-border: conic-gradient(
-    #00000080,
-    #00000040,
-    #00000030,
-    #00000020,
-    #00000010,
-    #00000010,
-    #00000080
-  );
+  --tile-border: conic-gradient(#00000080,
+      #00000040,
+      #00000030,
+      #00000020,
+      #00000010,
+      #00000010,
+      #00000080);
 
   --callout-rgb: 238, 240, 241;
   --callout-border-rgb: 172, 175, 176;
@@ -47,24 +41,20 @@
     --background-end-rgb: 0, 0, 0;
 
     --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
+    --secondary-glow: linear-gradient(to bottom right,
+        rgba(1, 65, 255, 0),
+        rgba(1, 65, 255, 0),
+        rgba(1, 65, 255, 0.3));
 
     --tile-start-rgb: 2, 13, 46;
     --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
+    --tile-border: conic-gradient(#ffffff80,
+        #ffffff40,
+        #ffffff30,
+        #ffffff20,
+        #ffffff10,
+        #ffffff10,
+        #ffffff80);
 
     --callout-rgb: 20, 20, 20;
     --callout-border-rgb: 108, 108, 108;
@@ -82,17 +72,15 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: #ffffff;
+  background: #1c3144;
+  min-height: 100dvh;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
 }
 
 a {
@@ -104,4 +92,139 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #dedede;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background: rgb(157, 212, 220);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(0, 225, 255);
+  
+}
+
+@-webkit-keyframes textbg {
+  0% {
+    background-position: 0% 50%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+@-moz-keyframes textbg {
+  0% {
+    background-position: 0% 50%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+@-o-keyframes textbg {
+  0% {
+    background-position: 0% 50%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+@keyframes textbg {
+  0% {
+    background-position: 0% 50%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+.modal-open{
+  overflow: hidden !important;
+}
+
+@font-face {
+  font-family: "Vintage-sans";
+  src: url('../fonts/VinaSans-Regular.ttf');
+}
+@font-face {
+  font-family: "Nabla";
+  src: url('../fonts/Nabla-Regular-VariableFont_EDPT\,EHLT.ttf');
+}
+
+
+
+@font-face {
+  font-family: "Pacifico";
+  src: url('../fonts/Pacifico-Regular.ttf');
+}
+@font-face {
+  font-family: "Kelfill";
+  src: url('../fonts/Kelsi-fill.otf');
+}
+@font-face {
+  font-family: "Kelreg";
+  src: url('../fonts/Kelsi-Regular.otf');
+}
+@font-face {
+  font-family: "Bsign";
+  src: url('../fonts/Bsign-Regular.ttf');
+}
+@font-face {
+  font-family: "Jersy";
+  src: url('../fonts/behance-637fc8bc34000.ttf');
+}
+@font-face {
+  font-family: "Monserat";
+  src: url('../fonts/Montserrat-VariableFont_wght.ttf');
+}
+@font-face {
+  font-family: "Code";
+  src: url('../fonts/SourceCodePro-VariableFont_wght.ttf');
+}
+@font-face {
+  font-family: "BebasNEW";
+  src: url('../fonts/BebasNeue-Regular.ttf');
+}
+@font-face {
+  font-family: "WorkSans";
+  src: url('../fonts/WorkSans-VariableFont_wght.ttf');
+}
+@font-face {
+  font-family: "Anton";
+  src: url('../fonts/Anton-Regular.ttf');
 }

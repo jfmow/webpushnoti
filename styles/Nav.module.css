@@ -1,0 +1,124 @@
+.navdiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 10vh;
+    color: #7e7f9a;
+}
+
+.container {
+    position: fixed;
+    width: 100%;
+    max-width: inherit;
+    /* background-color: #0d1821d1; */
+    /* backdrop-filter: blur(5px); */
+    z-index: 10;
+    top: 0;
+}
+
+.usrmngment{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+}
+
+.navdiv>h3{
+    font-family: 'Nabla', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    transition: all 0.3s;
+    color: red;
+}
+.navdiv>h3:hover{
+    transform: scale(1.1);
+}
+.navdiv>h3:active{
+    transform: scale(0.95);
+}
+
+.navdiv > ul{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    background: #0d1821d1;
+    padding: 1em;
+    border-radius: 10em;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.navdiv > ul > li{
+    margin: 0 5vh;
+    transition: color 0.3s;
+    text-decoration: none;
+background-image: linear-gradient(#7a5ad9, #7a5ad9);
+background-size: 0% 0.1em;
+background-position-y: 100%;
+background-position-x: 50%;
+background-repeat: no-repeat;
+transition: background-size 0.2s ease-in-out, transform 0.3s;
+
+}
+
+.navdiv > ul > li:hover{
+    color: rgb(104 74 211);
+    background-size: 100% 0.1em;
+}
+.navdiv > ul > li:active{
+    transform: scale(0.95);
+}
+
+.navitems{
+    padding: 0;
+    align-items: center;
+    font-weight: 500;
+}
+
+.navitems>li>button{
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+
+
+.usericon{
+    width: 2.5em;
+    height: 2.5em;
+    border: 3px solid #ededed;
+    border-radius: 50%;
+    transition: border 0.3s;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
+}
+
+.usericon:hover{
+    border-color: #7a5ad9;
+    transform: rotate(360deg) scale(1.03);
+}
+
+.acc{
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .navdiv > ul > li{
+        margin: 0 2vh;
+    }
+}
+
+@media (max-width: 912px) {
+    .navdiv{
+        padding: 1em;
+        gap: 1em;
+    }
+    .acc{
+        display: block;
+    }
+}
