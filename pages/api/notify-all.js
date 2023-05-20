@@ -2,7 +2,6 @@ import prisma from "@/lib/db";
 import {sendNotifications} from "@/lib/sendNotifications";
 export default async function notifAll(req, res){
   res.status(200);
-  console.log(JSON.parse(req.body).msg)
   const subscriptions = await prisma.subscriptions.findMany()
   if (subscriptions.length > 0) {
     sendNotifications(subscriptions, JSON.parse(req.body).msg)

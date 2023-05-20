@@ -1,69 +1,80 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-export default function Home(){
+export default function Home() {
   const [msg, setMessage] = useState('')
   async function notifyAll() {
     const response = await fetch('/api/notify-all', {
       method: 'POST',
-      body: JSON.stringify({msg: {title: msg}})
+      body: JSON.stringify({ msg: { title: msg } })
     });
     if (response.status === 409) {
       document.getElementById('notification-status-message').textContent =
-          'There are no subscribed endpoints to send messages to, yet.';
+        'There are no subscribed endpoints to send messages to, yet.';
     }
   }
-  return(
+  async function notifyMe() {
+    const registration = await navigator.serviceWorker.getRegistration();
+    const subscription = await registration.pushManager.getSubscription();
+    console.log(JSON.stringify({ msg: { title: msg }, endpoint: subscription.endpoint }))
+
+    const response = await fetch('/api/sendnotif', {
+      method: 'POST',
+      body: JSON.stringify({ msg: { title: msg }, endpoint: subscription.endpoint })
+    });
+  }
+  return (
     <>
-    <h1>
-      Home
+      <h1>
+        Home
       </h1>
-      
+
       <h2>Service worker</h2>
-      <textarea  
-                id="registration-status-message">This browser doesn't support service workers.</textarea>
-      <button 
+      <textarea
+        id="registration-status-message">This browser doesn't support service workers.</textarea>
+      <button
         id="register"
         onClick={registerServiceWorker}
-        >
+      >
         Register service worker
       </button>
-      <button 
+      <button
         id="unregister"
         onClick={unregisterServiceWorker}
-        >
+      >
         Unregister service worker
       </button>
       <h2>Subscripton</h2>
-      <textarea  
-                id="subscription-status-message">No push subscription is active.</textarea>
-      <button 
+      <textarea
+        id="subscription-status-message">No push subscription is active.</textarea>
+      <button
         id="subscribe"
         onClick={subscribeToPush}
-        >
+      >
         Subscribe to push
       </button>
-      <button 
+      <button
         id="unsubscribe"
         onClick={unsubscribeFromPush}
-        >
+      >
         Unsubscribe from push
       </button>
-    <h2>Notifications</h2>
-    <textarea onChange={(e)=>(setMessage(e.target.value))}
-              id="notification-status-message">No notifications sent yet.</textarea>
-    <button  
-      id="notify-me"
-      onClick={notifyMe}
+      <h2>Notifications</h2>
+      <textarea onChange={(e) => (setMessage(e.target.value))}
+        id="notification-status-message">No notifications sent yet.</textarea>
+      <button
+        id="notify-me"
+        onClick={notifyMe}
       >
-      Notify me
-    </button>
-    <button   
-      id="notify-all"
-      onClick={notifyAll}>
-      Notify all
-    </button>
+        Notify me
+      </button>
+      <button
+        id="notify-all"
+        onClick={notifyAll}>
+        Notify all
+      </button>
 
-      </>
+    </>
   )
 }
 
@@ -86,7 +97,7 @@ async function unregisterServiceWorker() {
 
 async function subscribeToPush() {
   const registration = await navigator.serviceWorker.getRegistration();
-  try{
+  try {
     Notification.requestPermission()
     const subscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
@@ -95,28 +106,24 @@ async function subscribeToPush() {
     console.log(subscription)
     postToServer('/api/add-subscription', subscription);
     updateUI();
-  } catch (err){
+  } catch (err) {
     console.log(err)
-    throw new Error(err)
+    return toast.error('Permision denied. Enable notifs')
   }
-  
+
 }
 
 async function unsubscribeFromPush() {
   const registration = await navigator.serviceWorker.getRegistration();
   const subscription = await registration.pushManager.getSubscription();
-  postToServer('/api/remove-subscription', { 
+  postToServer('/api/remove-subscription', {
     endpoint: subscription.endpoint
   });
   await subscription.unsubscribe();
   updateUI();
 }
 
-async function notifyMe() {
-  const registration = await navigator.serviceWorker.getRegistration();
-  const subscription = await registration.pushManager.getSubscription();
-  postToServer('/api/sendnotif', { endpoint: subscription.endpoint });
-}
+
 
 
 
@@ -143,7 +150,7 @@ async function updateUI() {
     subscriptionStatus.textContent = "Push subscription on this client isn't possible because of lack of service worker support.";
     notificationStatus.textContent = "Push notification to this client isn't possible because of lack of service worker support.";
     return;
-  }  
+  }
   const registration = await navigator.serviceWorker.getRegistration();
   // Service worker is available and now we need to register one.
   if (!registration) {
@@ -154,7 +161,7 @@ async function updateUI() {
     return;
   }
   registrationStatus.textContent =
-      `Service worker registered. Scope: ${registration.scope}`;
+    `Service worker registered. Scope: ${registration.scope}`;
   const subscription = await registration.pushManager.getSubscription();
   // Service worker is registered and now we need to subscribe for push
   // or unregister the existing service worker.
@@ -168,7 +175,7 @@ async function updateUI() {
   // Service worker is registered and subscribed for push and now we need
   // to unregister service worker, unsubscribe to push, or send notifications.
   subscriptionStatus.textContent =
-      `Service worker subscribed to push. Endpoint: ${subscription.endpoint}`;
+    `Service worker subscribed to push. Endpoint: ${subscription.endpoint}`;
   notificationStatus.textContent = 'Ready to send a push notification to this client!';
   unregistrationButton.disabled = false;
   notifyMeButton.disabled = false;
@@ -189,7 +196,7 @@ const urlB64ToUint8Array = (base64String) => {
   for (let i = 0; i < rawData.length; ++i) {
     outputArray[i] = rawData.charCodeAt(i);
   }
-  return outputArray; 
+  return outputArray;
 };
 
 async function postToServer(url, data) {
