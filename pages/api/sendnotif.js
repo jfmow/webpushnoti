@@ -17,7 +17,7 @@ export default async function sendNotif(req, res) {
     console.log(filteredItems)
     sendNotifications(filteredItems, JSON.parse(req.body).msg);
     
-    res.status(200).send('Done 2');
+    res.status(200).send(filteredItems);
   } catch (error) {
     console.log(error);
     res.status(500).send('Failed to send notif');
