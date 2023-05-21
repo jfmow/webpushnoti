@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 export default function App({ Component, pageProps }) {
   useEffect(()=>{
     //register('https://beta.jamesmowat.com/service-worker.js')
-    register('http://localhost:3000/service-worker.js')
+    register(`${process.env.NEXT_PUBLIC_CURRENTURL}/service-worker.js`)
   })
   return (
     <>

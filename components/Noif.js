@@ -18,7 +18,7 @@ export default function Notifcation() {
         getNotif()
         if (window) {
             async function swReg(){
-            await navigator.serviceWorker.register('http://localhost:3000/service-worker.js');
+            await navigator.serviceWorker.register(`${process.env.NEXT_PUBLIC_CURRENTURL}/service-worker.js`);
             toast.success('Sw enabled')
             }
             swReg()
