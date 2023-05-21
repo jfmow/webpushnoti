@@ -10,8 +10,13 @@ export default async function notifAll(req, res) {
   const data = await subs.json()
   console.log(data.items)
   if (data.items.length > 0) {
-    sendNotifications(data.items, JSON.parse(req.body).msg)
-    res.status(200).send('Success');
+    try {
+      const state = await sendNotifications(data.items, JSON.parse(req.body).msg)
+      console.log(state)
+      res.status(200).send('Success');
+    } catch (error) {
+      res.status(500).send('error')
+    }
   } else {
     res.status(409).send('No subs');
   }

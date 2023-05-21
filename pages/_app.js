@@ -7,7 +7,8 @@ import { register } from 'next-offline/runtime';
 import { useEffect } from 'react';
 export default function App({ Component, pageProps }) {
   useEffect(()=>{
-    register('https://beta.jamesmowat.com/service-worker.js')
+    //register('https://beta.jamesmowat.com/service-worker.js')
+    register('http://localhost:3000/service-worker.js')
   })
   return (
     <>

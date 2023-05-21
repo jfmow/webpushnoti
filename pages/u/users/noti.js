@@ -87,11 +87,11 @@ export default function Home() {
     if (users.length === 0) {
       return toast.warning('Please select at least one user!');
     }
-    
+
     try {
       const response = await fetch('/api/sendnotif', {
         method: 'POST',
-  
+
         body: JSON.stringify({ msg: { title: msg, body: msg_body }, user: { token: pb.authStore.token, id: users } })
       });
       if (response.status === 409) {
@@ -99,10 +99,11 @@ export default function Home() {
           'There are no subscribed endpoints to send messages to, yet.';
       }
       if (response.status !== 200) {
-        toast.warning('Failed to send!')
+        return toast.warning('Failed to send!')
       }
       setMessage('');
       setMessageBody('');
+      setUsers([])
       toast.success('Posted!');
     } catch (err) {
       console.log(err)
@@ -187,62 +188,6 @@ export default function Home() {
     </>
   );
 
-  return (
-    <>
-      <h1>
-        Home
-      </h1>
-
-      <h2>Service worker</h2>
-      <textarea
-        id="registration-status-message">This browser doesn't support service workers.</textarea>
-      <button
-        id="register"
-        onClick={registerServiceWorker}
-      >
-        Register service worker
-      </button>
-      <button
-        id="unregister"
-        onClick={unregisterServiceWorker}
-      >
-        Unregister service worker
-      </button>
-      <h2>Subscripton</h2>
-      <textarea
-        id="subscription-status-message">No push subscription is active.</textarea>
-      <button
-        id="subscribe"
-        onClick={subscribeToPush}
-      >
-        Subscribe to push
-      </button>
-      <button
-        id="unsubscribe"
-        onClick={unsubscribeFromPush}
-      >
-        Unsubscribe from push
-      </button>
-      <h2>Notifications</h2>
-      <input type="text" onChange={(e) => (setMessage(e.target.value))}
-        id="notification-status-message" value={msg} placeholder="Msg title..." />
-      <h2>Notifications</h2>
-      <input type="text" onChange={(e) => (setMessageBody(e.target.value))}
-        id="notification-status-message" value={msg_body} placeholder="Msg body..." />
-      <button
-        id="notify-me"
-        onClick={notifyMe}
-      >
-        Notify me
-      </button>
-      <button
-        id="notify-all"
-        onClick={notifyAll}>
-        Notify all
-      </button>
-
-    </>
-  )
 }
 
 
