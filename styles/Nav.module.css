@@ -41,7 +41,7 @@
     list-style-type: none;
     display: flex;
     flex-direction: row;
-    background: #0d1821d1;
+    background: #d1d1d1d1;
     padding: 1em;
     border-radius: 10em;
     backdrop-filter: blur(3px);
