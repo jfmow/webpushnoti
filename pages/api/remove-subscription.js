@@ -1,6 +1,9 @@
 
 export default async function unSub(req, res) {
   console.log(req.body)
+  if(req.body.user.token == undefined){
+    return res.status(429).send('Not allowed!')
+  }
   try {
     const subs = await fetch("https://news1.suddsy.dev/api/collections/subscriptions/records", {
       method: "GET",

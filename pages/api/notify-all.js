@@ -1,6 +1,9 @@
 import { sendNotifications } from "@/lib/sendNotifications";
 export default async function notifAll(req, res) {
   res.status(200);
+  if(JSON.parse(req.body).user.token == undefined){
+    return res.status(429).send('Not allowed!')
+  }
   const subs = await fetch(`https://news1.suddsy.dev/api/collections/subscriptions/records`, {
     method: "GET",
     headers: {

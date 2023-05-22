@@ -1,6 +1,9 @@
 import { sendNotifications } from "@/lib/sendNotifications";
 
 export default async function sendNotif(req, res) {
+  if(JSON.parse(req.body).user.token == undefined){
+    return res.status(429).send('Not allowed!')
+  }
   try {
     const userIds = JSON.parse(req.body).user.id; // Get the user IDs array from req.body
 
