@@ -40,7 +40,7 @@
 
 .submitbutton {
   font-family: monospace;
-  background-color: transparent;
+  background-color: #98A6D4;
   color: #f63b3b;
   border: none;
   border-radius: 8px;
@@ -48,7 +48,7 @@
   height: fit-content;
   padding: 0 1vh;
   transition: .3s;
-  fill: #f6f6f6;
+  fill: #fff;
   /* min-width: 100px;*/
 }
 

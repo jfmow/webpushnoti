@@ -13,7 +13,7 @@
   margin: 0;
   font-size: 25px;
   text-align: center;
-  background: #607D8B;
+  background: #668F80;
   }
 
   .forms{
@@ -29,7 +29,7 @@
 
   }
   .edit_form{
-    background: #121f2b;
+    background: #d9d9d9;
     padding: 2em;
     border-radius: 2em;
     display: flex;
@@ -55,14 +55,13 @@
     gap: 5px;
   }
   .article{
-    background: #132b44;
-    border: 1px solid #000;
+    background: #ffffff;
+    border: 1px solid #979797;
     padding: 1em;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #7e7f9a;
   }
   .createdDate{
     color: #6c6c6c;

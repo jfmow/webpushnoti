@@ -1,6 +1,6 @@
 .container{
   min-height: 100dvh;
-  background: radial-gradient(#7a5ad9, black);
+  background: radial-gradient(#7a5ad9, #FFF7EA);
 }
 .header{
   display: flex;
@@ -248,7 +248,7 @@
   width: 100%;
   padding: 0;
   margin: 0;
-  background: #607d8b;
+  background: #668F80;
   margin-bottom: -7vh;
 }
 .authicon{

@@ -83,7 +83,6 @@
     padding: 3em;
     list-style-type: none;
     word-wrap: break-word;
-    font-family: 'Dmsans';
 }
 
 @media(max-width: 900px){

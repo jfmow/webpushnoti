@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1em 10vh;
-    color: #7e7f9a;
+    color: #fff;
 }
 
 .container {
@@ -41,7 +41,7 @@
     list-style-type: none;
     display: flex;
     flex-direction: row;
-    background: #d1d1d1d1;
+    background: #98a6d4a7;
     padding: 1em;
     border-radius: 10em;
     backdrop-filter: blur(3px);
@@ -99,7 +99,7 @@ transition: background-size 0.2s ease-in-out, transform 0.3s;
 }
 
 .usericon:hover{
-    border-color: #7a5ad9;
+    border-color: #9067C6;
     transform: rotate(360deg) scale(1.03);
 }
 
