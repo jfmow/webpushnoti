@@ -364,6 +364,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
 .usrname_bg {
@@ -374,16 +375,17 @@
 }
 
 .usrname_block {
-  background: #668F80;
-  border-radius: 1em;
-  padding: 2em;
-  min-height: 10em;
-  width: 30em;
-  display: flex;
-  border: 1px solid rgb(219, 219, 219);
-  box-shadow: 1px 1px 17px 11px #eeeeee;
-  z-index: 20;
-  justify-content: flex-end;
+  background: #668f80;
+    border-radius: 1em;
+    padding: 2em;
+    min-height: 10em;
+    width: 30em;
+    display: flex;
+    /* border: 1px solid #dbdbdb; */
+    box-shadow: 0px 0px 10px 4px #eee;
+    z-index: 20;
+    justify-content: flex-end;
+    color: #fff;
 }
 
 .usrname_block form {
