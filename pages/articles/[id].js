@@ -148,10 +148,11 @@ const SavedData = ({ savedData, articleArti }) => {
         }
         setUserSaved(false)
         const filtered = pb.authStore.model.saved_articles.filter(article => article !== articleArti.id)
+    
         const data = {
-            "saved_articles": [
+            "saved_articles": 
                 filtered
-            ]
+            
         };
         await pb.collection('users').update(pb.authStore.model.id, data);
     }
