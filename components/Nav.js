@@ -59,7 +59,7 @@ export default function Nav() {
 
                     <div className={styles.usrmngment}>
                         <Notifcation />
-                        <span className={styles.alone}><Link href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
+                        <span className={styles.alone}><Link aria-label='Settings' href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@ export default function Nav() {
                     <div className={styles.usrmngment}>
                         <Reports/>
                         <Notifcation />
-                        <span className={styles.alone}><Link href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
+                        <span className={styles.alone}><Link aria-label='Settings' href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@ export default function Nav() {
 
                     <div className={styles.usrmngment}>
                         <Notifcation />
-                        <span className={styles.alone}><Link href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
+                        <span className={styles.alone}><Link aria-label='Settings' href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@ export default function Nav() {
                 <h3><Link legacyBehavior passHref href="/"><a>News</a></Link></h3>
                 <ul className={styles.navitems}>
                     <li><Link href="/" passHref legacyBehavior><a>Articles</a></Link></li>
-                    <li id="conflash"><button onClick={handleLoginClick}>Login</button></li>
+                    <li id="conflash"><button aria-label='Login' onClick={handleLoginClick}>Login</button></li>
                 </ul>
             </div>
         </div>

@@ -85,7 +85,7 @@ export default function home() {
                 <Link className={styles.atitle} href={`/articles/${article.id}`}>
                   <div className={styles.postcard}>
                     {article.expand.author?.avatar ? (
-                      <img className={styles.avatar} src={`${process.env.NEXT_PUBLIC_POCKETURL}/api/files/users/${article.expand.author?.id}/${article.expand.author?.avatar}?thumb=100x100`} />
+                      <img className={styles.avatar} src={`${process.env.NEXT_PUBLIC_POCKETURL}/api/files/users/${article.expand.author?.id}/${article.expand.author?.avatar}?thumb=100x100`} aria-label={article.expand.author?.username} />
                     ) : (
                       <div className={styles.avatar} />
                     )}
