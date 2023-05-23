@@ -59,6 +59,7 @@ export default function Nav() {
 
                     <div className={styles.usrmngment}>
                         <Notifcation />
+                        <Link className={styles.bookmared_articles_btn} href='/u/me/saved-articles'><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-40v-640q0-33 23.5-56.5T200-760h400q33 0 56.5 23.5T680-680v640L400-160 120-40Zm640-120v-680H240v-80h520q33 0 56.5 23.5T840-840v680h-80Z"/></svg></Link>
                         <span className={styles.alone}><Link aria-label='Settings' href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
                     </div>
                 </div>
@@ -81,6 +82,7 @@ export default function Nav() {
                     <div className={styles.usrmngment}>
                         <Reports/>
                         <Notifcation />
+                        <Link className={styles.bookmared_articles_btn} href='/u/me/saved-articles'><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-40v-640q0-33 23.5-56.5T200-760h400q33 0 56.5 23.5T680-680v640L400-160 120-40Zm640-120v-680H240v-80h520q33 0 56.5 23.5T840-840v680h-80Z"/></svg></Link>
                         <span className={styles.alone}><Link aria-label='Settings' href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
                     </div>
                 </div>
@@ -104,6 +106,7 @@ export default function Nav() {
 
                     <div className={styles.usrmngment}>
                         <Notifcation />
+                        <Link className={styles.bookmared_articles_btn} href='/u/me/saved-articles'><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-40v-640q0-33 23.5-56.5T200-760h400q33 0 56.5 23.5T680-680v640L400-160 120-40Zm640-120v-680H240v-80h520q33 0 56.5 23.5T840-840v680h-80Z"/></svg></Link>
                         <span className={styles.alone}><Link aria-label='Settings' href="/u/me" passHref><Image width='100' height='100' className={styles.usericon} src={pb.baseUrl + "/api/files/_pb_users_auth_/" + pb.authStore.model?.id + "/" + pb.authStore.model?.avatar + "?thumb=400x400"}></Image></Link></span>
                     </div>
                 </div>

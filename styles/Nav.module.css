@@ -107,6 +107,14 @@ transition: background-size 0.2s ease-in-out, transform 0.3s;
     display: none;
 }
 
+.bookmared_articles_btn{
+    fill: #fff;
+    transition: 0.2s all ease-in-out;
+}
+.bookmared_articles_btn:hover{
+    fill: #9067C6;
+}
+
 @media (max-width: 1000px) {
     .navdiv > ul > li{
         margin: 0 2vh;

@@ -118,10 +118,39 @@ export default function Viewer({ arti }) {
         </div>)
     }
 
-    return <><SavedData savedData={articleData2} articleArti={artiArticle} /><Comments articleId={arti.article} /><ReportBtn articleName={artiArticle} /></>
+    return <><SavedData savedData={articleData2} userSaved={pb.authStore.model.saved_articles.includes(artiArticle.id)} articleArti={artiArticle} /><Comments articleId={arti.article} /><ReportBtn articleName={artiArticle} /></>
 }
 
-const SavedData = ({ savedData, articleArti }) => {
+const SavedData = ({ savedData, articleArti, userSaved }) => {
+    const [userSavedAlt, setUserSaved] = useState(userSaved)
+    const [shareModal, setShareModal]= useState(false);
+    
+    async function saveArticle() {
+        if (!pb.authStore.isValid) {
+            return window.location.replace(`/auth/login/articles/${articleArti.id}`)
+        }
+        setUserSaved(true)
+        const data = {
+            "saved_articles": [
+                ...pb.authStore.model.saved_articles, articleArti.id
+            ]
+        };
+        await pb.collection('users').update(pb.authStore.model.id, data);
+    }
+    async function unsaveArticle() {
+        if (!pb.authStore.isValid) {
+            return window.location.replace(`/auth/login/articles/${articleArti.id}`)
+        }
+        setUserSaved(false)
+        const filtered = pb.authStore.model.saved_articles.filter(article => article.id !== articleArti.id)
+        const data = {
+            "saved_articles": [
+                filtered
+            ]
+        };
+        await pb.collection('users').update(pb.authStore.model.id, data);
+    }
+
     if (!savedData) {
         return (
             <div className={styles.container}>
@@ -143,6 +172,24 @@ const SavedData = ({ savedData, articleArti }) => {
             </div>
         )
     }
+    function copyToClip() {
+        // Create a dummy input element
+        var dummyInput = document.createElement('input');
+        dummyInput.setAttribute('value', window.location.href);
+
+        // Append it to the body
+        document.body.appendChild(dummyInput);
+
+        // Select and copy the value of the dummy input
+        dummyInput.select();
+        document.execCommand('copy');
+
+        // Remove the dummy input from the DOM
+        document.body.removeChild(dummyInput);
+
+        // Optionally, provide visual feedback to the user
+        setShareModal(false)
+      }
     const { time, blocks, version } = savedData;
     return (
         <div className={styles.container}>
@@ -158,6 +205,29 @@ const SavedData = ({ savedData, articleArti }) => {
                     <h1>{articleArti?.title || "unknown"}</h1>
                     <h4>Written by: <Link className={styles.authorlink} href={`/u/@${articleArti.expand?.author?.username}`}>{articleArti.expand?.author?.username || "unknown"}</Link></h4>
                     <p>On the {new Date(time).toLocaleDateString()}</p>
+                    <div className={styles.sharebtns_container}>
+                        <button className={styles.sharebtn_button} onClick={()=>setShareModal(true)} type="button"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M720 976q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322 664q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638 384L356 548q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-640q17 0 28.5-11.5T760 296q0-17-11.5-28.5T720 256q-17 0-28.5 11.5T680 296q0 17 11.5 28.5T720 336ZM240 616q17 0 28.5-11.5T280 576q0-17-11.5-28.5T240 536q-17 0-28.5 11.5T200 576q0 17 11.5 28.5T240 616Zm480 280q17 0 28.5-11.5T760 856q0-17-11.5-28.5T720 816q-17 0-28.5 11.5T680 856q0 17 11.5 28.5T720 896Zm0-600ZM240 576Zm480 280Z" /></svg></button>
+                        {userSavedAlt ? (
+                            <button onClick={unsaveArticle} className={styles.sharebtn_button} type="button"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M713-600 600-713l56-57 57 57 141-142 57 57-198 198ZM200-120v-640q0-33 23.5-56.5T280-840h280q-20 30-30 57.5T520-720q0 72 45.5 127T680-524q23 3 40 3t40-3v404L480-240 200-120Z" /></svg></button>
+                        ) : (
+                            <button onClick={saveArticle} className={styles.sharebtn_button} type="button"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" /></svg></button>
+                        )}
+                    </div>
+                    {shareModal && (
+                        <>
+                            <div className={styles.sharemodal_container} onClick={()=>setShareModal(false)}>
+                                <div className={styles.shareModal} onClick={(event) => event.stopPropagation()}>
+                                    <h2>Share {articleArti.title}</h2>
+                                    <div className={styles.shareModal_link}>
+                                        <div className={styles.shareModal_link_text}>
+                                            https://news.suddsy.dev/articles/{articleArti.id}
+                                        </div>
+                                        <button onClick={copyToClip} className={styles.shareModal_link_btn}><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-160q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Z"/></svg></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div></div>
 
             <ul className={styles.article}>
@@ -258,7 +328,7 @@ function ReportBtn({ articleName }) {
     const [reporting, setReporting] = useState(false);
     async function handelReport(e) {
         e.preventDefault()
-        if(!reportReason || !reporterEmail){
+        if (!reportReason || !reporterEmail) {
             return toast.warning('Please fill out all fields!')
         }
         setReporting(true)
