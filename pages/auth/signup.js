@@ -6,7 +6,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic'
 import validator from 'validator';
 import Loader from '@/components/Loader'
-import { getPosition } from '@/utils/position.js'
+import { getPosition } from '@/lib/position.js'
 
 const Tc = dynamic(() => import('@/components/Termsandconditions'), {
     ssr: false, loading: () => <p>Loading...</p>,

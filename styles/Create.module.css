@@ -6,11 +6,11 @@
   padding: 0;
 }
 
-.creategrid{
+.creategrid {
   display: grid;
   grid-template-columns: 1fr;
   padding: 3em;
-  color: #000 !important;
+  color: #ffffff !important;
   word-break: break-word;
 }
 
@@ -20,22 +20,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
 }
 
 .formbuttons {
   display: grid;
-    /* width: 100%; */
-    grid-template-columns: 1fr;
-    justify-items: center;
-    align-items: center;
-    grid-gap: 1em;
-    gap: 1em;
-    padding: 1em;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
+  /* width: 100%; */
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 1em;
+  gap: 1em;
+  padding: 1em;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
 }
 
 .submitbutton {
@@ -90,39 +90,39 @@
   display: none;
 }
 
-.specialinputs{
+.specialinputs {
   display: flex;
   justify-content: center;
 }
 
 .titleinput {
-  /*min-width: 40%; */
-    width: 100%;
-    resize: none;
-    outline: none;
-    background-color: transparent;
-    color: #ffd3e8;
-    border: none;
-    /* border-radius: 10px; */
-    padding: 10px;
-    /* font-family: monospace; */
-    font-size: 30px;
-    line-height: 1.5;
-    resize: none;
-    -webkit-text-shadow: 0 0 5px #000000;
-    text-shadow: 0 0 5px #8f8f8f; 
-    text-align: center;
-    font-weight: 700;
+  /*min-width: 40%;
+  */ width: 100%;
+  resize: none;
+  outline: none;
+  background-color: transparent;
+  color: #000000;
+  border: none;
+  /* border-radius: 10px; */
+  padding: 10px;
+  /* font-family: monospace; */
+  font-size: 30px;
+  line-height: 1.5;
+  resize: none;
+  -webkit-text-shadow: 0 0 5px #000000;
+  text-shadow: 0 0 5px #9f86ff;
+  text-align: center;
+  font-weight: 700;
 }
 
-.titleinput::placeholder{
+.titleinput::placeholder {
   text-shadow: none;
   color: #8f8f8f;
   font-weight: 600;
 }
 
 
-.containererror{
+.containererror {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,7 +132,8 @@
   padding: 0;
   margin: 0;
 }
-.containererror>h1{
+
+.containererror>h1 {
   padding: 1em;
 }
 
@@ -150,56 +151,56 @@
   border: none;
   background: #000;
   color: white;
- }
- 
- .backbutton > svg {
+}
+
+.backbutton>svg {
   margin-right: 5px;
   margin-left: 5px;
   font-size: 20px;
   transition: all 0.4s ease-in;
   fill: white;
- }
- 
- .backbutton:hover > svg {
+}
+
+.backbutton:hover>svg {
   font-size: 1.2em;
   transform: translateX(-5px);
- }
- 
- .backbutton:hover {
+}
+
+.backbutton:hover {
   box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
   transform: translateY(-2px);
- }
+}
 
- @media(max-width: 800px){
-  .formbuttons{
+@media(max-width: 800px) {
+  .formbuttons {
     z-index: auto;
     position: relative;
     grid-template-columns: 1fr 1fr;
   }
- }
+}
 
 
- 
-.title{
+
+.title {
   width: 100%;
   position: relative;
   height: 300px;
   margin-top: -10vh;
   background: linear-gradient(20deg, #5f10b3, #0f8e9e);
-    background-size: 100%;
+  background-size: 100%;
 }
 
-.title img{
+.title img {
   position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
 }
 
-.headerstuff{
+.headerstuff {
   position: relative;
   z-index: 2;
   width: 100%;
@@ -208,41 +209,43 @@ z-index: 1;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  
+
 }
 
 
-.title h1{
+.title h1 {
   font-size: 4em;
   /* text-align: center; */
   color: white;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   word-break: break-all;
-  
+
 }
 
-.title h4{
+.title h4 {
   color: white;
   font-size: 1em;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-.title p{
+.title p {
   color: white;
   font-size: 1rem;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-@media(max-width: 900px){
-  .headerstuff{
-      padding: 1em;
+@media(max-width: 900px) {
+  .headerstuff {
+    padding: 1em;
   }
-  .title h1{
-      font-size: 2em;
+
+  .title h1 {
+    font-size: 2em;
   }
-  .title p h4{
-      font-size: 0.8em;
+
+  .title p h4 {
+    font-size: 0.8em;
   }
 }

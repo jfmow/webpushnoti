@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { toast } from 'react-toastify';
 import Head from 'next/head';
 import validator from 'validator';
-import { getPosition } from '@/utils/position.js'
+import { getPosition } from '@/lib/position.js'
 
 
 const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETURL);

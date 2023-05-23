@@ -13,7 +13,7 @@
   margin: 0;
   font-size: 25px;
   text-align: center;
-  background: #668F80;
+  background: linear-gradient(#b53f3f, transparent);
   }
 
   .forms{
@@ -29,7 +29,7 @@
 
   }
   .edit_form{
-    background: #d9d9d9;
+    background: repeating-linear-gradient(45deg, #3F51B5, transparent 249px);
     padding: 2em;
     border-radius: 2em;
     display: flex;
@@ -55,7 +55,7 @@
     gap: 5px;
   }
   .article{
-    background: #ffffff;
+    background: #000000;
     border: 1px solid #979797;
     padding: 1em;
     border-radius: 5px;
@@ -112,11 +112,11 @@
   .edit_form_new_btn{
     background: none;
     border: none;
-    fill: #1899D6;
+    fill: #ffffff;
     cursor: pointer;
   }
   .edit_form_new_btn:hover{
-    fill: #34a0d2;
+    fill: #eeeeee;
   }
   .edit_form_new_btn:active{
     transform: scale(0.95);
@@ -128,17 +128,17 @@
   }
 
 .searchArticles {
-        background: linear-gradient(45deg, #3F51B5, #673AB7);
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    outline: none;
-    padding: 1em 2em;
-    border-radius: 5px;
-    box-shadow: inset 0px 0px 6px 2px #fff;
+  background: #ffffff96;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  outline: none;
+  padding: 1em 2em;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 6px 2px #fff;
 }
 
 .searchArticles::placeholder {
-    color: gray;
+    color: rgb(0, 0, 0);
 }
 
 
