@@ -77,7 +77,7 @@ export default function Viewer({ arti }) {
         }
     }
     if (isAdmin || (isAdmin && isAuthor)) {
-        return <><SavedData savedData={articleData2} articleArti={artiArticle} /><Comments articleId={arti.article} /><div className={styles.admineditbtns}>
+        return <><SavedData userSaved={pb.authStore.model.saved_articles.includes(artiArticle.id)} savedData={articleData2} articleArti={artiArticle} /><Comments articleId={arti.article} /><div className={styles.admineditbtns}>
             <Link href={`/editor/${arti.article}`}><button className={styles.submitbutton} type="button">Edit article</button></Link>
             <button onClick={adminPublishArticle} className={styles.publishbutton}>{isPublished ? "Unpublish" : "Publish article"}</button>
         </div><ReportBtn articleName={artiArticle} /></>
@@ -86,7 +86,7 @@ export default function Viewer({ arti }) {
         console.log(artiArticle)
         return <>
 
-            <SavedData savedData={articleData2} articleArti={artiArticle} /><Comments articleId={arti.article} /><div className={styles.admineditbtns}>
+            <SavedData savedData={articleData2} userSaved={pb.authStore.model.saved_articles.includes(artiArticle.id)} articleArti={artiArticle} /><Comments articleId={arti.article} /><div className={styles.admineditbtns}>
                 {artiArticle?.author === pb.authStore.model.id && (
                     <Link href={`/editor/${arti.article}`}><button className={styles.submitbutton} type="button">Edit article</button></Link>
                 )}
