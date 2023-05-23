@@ -147,7 +147,7 @@ const SavedData = ({ savedData, articleArti }) => {
             return window.location.replace(`/auth/login/articles/${articleArti.id}`)
         }
         setUserSaved(false)
-        const filtered = pb.authStore.model.saved_articles.filter(article => article.id !== articleArti.id)
+        const filtered = pb.authStore.model.saved_articles.filter(article => article !== articleArti.id)
         const data = {
             "saved_articles": [
                 filtered
