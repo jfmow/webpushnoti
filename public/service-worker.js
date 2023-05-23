@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-pwa-cache';
+const CACHE_NAME = 'color-update-v1';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

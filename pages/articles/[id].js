@@ -156,6 +156,24 @@ const SavedData = ({ savedData, articleArti }) => {
         };
         await pb.collection('users').update(pb.authStore.model.id, data);
     }
+    function copyToClip() {
+        // Create a dummy input element
+        var dummyInput = document.createElement('input');
+        dummyInput.setAttribute('value', window.location.href);
+
+        // Append it to the body
+        document.body.appendChild(dummyInput);
+
+        // Select and copy the value of the dummy input
+        dummyInput.select();
+        document.execCommand('copy');
+
+        // Remove the dummy input from the DOM
+        document.body.removeChild(dummyInput);
+
+        // Optionally, provide visual feedback to the user
+        setShareModal(false)
+    }
 
     if (!savedData) {
         return (
@@ -178,24 +196,7 @@ const SavedData = ({ savedData, articleArti }) => {
             </div>
         )
     }
-    function copyToClip() {
-        // Create a dummy input element
-        var dummyInput = document.createElement('input');
-        dummyInput.setAttribute('value', window.location.href);
-
-        // Append it to the body
-        document.body.appendChild(dummyInput);
-
-        // Select and copy the value of the dummy input
-        dummyInput.select();
-        document.execCommand('copy');
-
-        // Remove the dummy input from the DOM
-        document.body.removeChild(dummyInput);
-
-        // Optionally, provide visual feedback to the user
-        setShareModal(false)
-    }
+    
     const { time, blocks, version } = savedData;
     return (
         <div className={styles.container}>
