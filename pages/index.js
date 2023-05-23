@@ -97,7 +97,7 @@ export default function home() {
                         src={`${process.env.NEXT_PUBLIC_POCKETURL}/api/files/articles/${article.id}/${article?.header_img}`}
                         alt=""
                         width='400'
-                        height='400'
+                        height='300'
                       />
                     ) : (
                       <div
