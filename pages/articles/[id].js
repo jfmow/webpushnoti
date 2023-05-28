@@ -364,15 +364,15 @@ function ReportBtn({ articleName }) {
             {showDetailsModal ?
                 (
                     <>
-                        <div className={styles.usrname_container} onClick={() => { setShowDetailsModal(false) }}>
-                            <div className={styles.usrname_bg}>
-                                <div className={styles.usrname_block} onClick={(event) => event.stopPropagation()}>
+                        <div className={styles.report_field_modal_container} onClick={() => { setShowDetailsModal(false) }}>
+                            <div className={styles.report_field_modal_bg}>
+                                <div className={styles.report_field_modal} onClick={(event) => event.stopPropagation()}>
                                     <button type='button' onClick={() => { setShowDetailsModal(false) }} className={styles.usrclose_btn}><svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M480 618 270 828q-9 9-21 9t-21-9q-9-9-9-21t9-21l210-210-210-210q-9-9-9-21t9-21q9-9 21-9t21 9l210 210 210-210q9-9 21-9t21 9q9 9 9 21t-9 21L522 576l210 210q9 9 9 21t-9 21q-9 9-21 9t-21-9L480 618Z" /></svg></button>
                                     <form>
                                         <h2>Report {articleName.title}</h2>
-                                        <div className={styles.usrname_edit_form}>
-                                            <input autoCorrect='false' autoCapitalize='false' id='usrnameinput' onChange={event => setReportEmail(event.target.value)} type='email' required placeholder='Your email' />
-                                            <input autoCapitalize='false' id='usrnameinput' onChange={event => setReportReason(event.target.value)} type='text' required placeholder='Reason' />
+                                        <div className={styles.report_field_modal_edit_form}>
+                                            <input autoCorrect='false' autoCapitalize='false' id='report_field_modalinput' onChange={event => setReportEmail(event.target.value)} type='email' required placeholder='Your email' />
+                                            <input autoCapitalize='false' id='report_field_modalinput' onChange={event => setReportReason(event.target.value)} type='text' required placeholder='Reason' />
                                         </div>
                                         <p>Spam and abuse of this system will not be tolerated and will result in a blacklist.</p>
                                         {reporting ? (

@@ -1,5 +1,5 @@
 .container {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   width: 100%;
   padding: 0;
@@ -14,7 +14,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   padding: 0;
   margin: 0;
@@ -318,7 +318,7 @@
   padding-bottom: 10px;
 }
 
-.usrname_container {
+.report_field_modal_container {
   position: fixed;
   top: 0;
   left: 0;
@@ -330,31 +330,32 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 11;
+  background: #000000e8;
 }
 
-.usrname_bg {
+.report_field_modal_bg {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.usrname_block {
-  background: radial-gradient(#9C27B0, transparent);
-  border-radius: 1em;
-  padding: 2em;
-  min-height: 10em;
-  width: 30em;
-  display: flex;
-  border: 3px solid #dbdbdb;
-  /* box-shadow: 0px 0px 10px 4px #eee; */
-  z-index: 20;
-  justify-content: flex-end;
-  color: #fff;
+.report_field_modal {
+  background: #000;
+    border-radius: 2em;
+    padding: 2em;
+    min-height: 10em;
+    width: 30em;
+    display: flex;
+    border: 3px solid #dbdbdb;
+    /* box-shadow: 0px 0px 10px 4px #eee; */
+    z-index: 20;
+    justify-content: flex-end;
+    color: #fff;
 }
 
-.usrname_block form {
+.report_field_modal form {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2em;
@@ -362,29 +363,29 @@
   width: 100%;
 }
 
-.usrname_edit_form {
+.report_field_modal_edit_form {
   display: flex;
   flex-direction: row;
   width: 100%;
   gap: 0.2em;
 }
 
-.usrname_block form input {
+.report_field_modal form input {
   border: none;
   padding: 1em;
   border-radius: 0.5em;
-  background: #f7f7f7;
-  color: #7a5ad9;
+  background: rgb(34, 34, 34);
+  color: #ffffff;
   width: 100%;
   height: 100%;
   outline: none;
 }
 
-.usrname_block form input::placeholder {
-  color: #919191;
+.report_field_modal form input::placeholder {
+  color: #818181;
 }
 
-.usrname_block form input:focus-visible {
+.report_field_modal form input:focus-visible {
   outline: 2px solid #4f4f4f;
 }
 
@@ -399,10 +400,11 @@
   height: 1.5em;
   width: 1.5em;
   cursor: pointer;
+  fill: #fff;
 }
 
 .usrclose_btn svg:hover {
-  fill: #919191;
+  fill: #d3d3d3;
 }
 
 .sharebtns_container {

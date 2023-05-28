@@ -1,10 +1,10 @@
 .container{
   min-height: 100dvh;
-  background: radial-gradient(#7a5ad9, #FFF7EA);
+  /*background: radial-gradient(#7a5ad9, #FFF7EA);*/
 }
 .header{
   display: flex;
-  height: 30vh;
+  height: 50dvh;
   justify-content: center;
   align-items: center;
   width: 100%;

@@ -209,7 +209,7 @@ function AccManagementForm() {
   }
   async function changeUsername(e) {
     e.preventDefault()
-    
+
     if (newUsername.length <= 2) {
       toast.warning('Must be longer than 3 char', {
         position: toast.POSITION.TOP_RIGHT,
@@ -248,7 +248,7 @@ function AccManagementForm() {
       document.getElementById('usrnameinput').style.outline = '#59d4af 2px solid';
     }
   }
-  async function sendEmailVerf(){
+  async function sendEmailVerf() {
     try {
       const email = await pb.collection('users').requestVerification(pb.authStore.model.email)
       return toast.success('Sent! Please check your inbox for an email.')
@@ -257,7 +257,7 @@ function AccManagementForm() {
     }
   }
 
-  async function downloadUserData(){
+  async function downloadUserData() {
     // Get the data from the API
     const [privateData, userData] = await Promise.all([
       pb.collection("private_data").getFullList({
@@ -265,7 +265,7 @@ function AccManagementForm() {
       }),
       pb.collection("users").getOne(pb.authStore.model.id),
     ]);
-  
+
     // Merge the privateData and userData into a single object
     const data = {
       privateData,
@@ -307,10 +307,20 @@ function AccManagementForm() {
           <button className={`${styles.buttondefault}`} onClick={downloadUserData} type="button">
             Download my data
           </button>
-          {pb.authStore.model.verified ? (''):(
+          {pb.authStore.model.notis ? (
+            <button className={`${styles.buttondefault} ${styles.buttonred}`} onClick={unsubscribeFromPush} type="button">
+              Disable push notifications
+            </button>
+          ) : (
+            <button className={`${styles.buttondefault} ${styles.buttongreen}`} onClick={subscribeToPush} type="button">
+              Enable push notifications
+            </button>
+          )}
+
+          {pb.authStore.model.verified ? ('') : (
             <button className={`${styles.buttondefault}`} onClick={sendEmailVerf} type="button">
-            Request verification
-          </button>
+              Request verification
+            </button>
           )}
           {pb.authStore.model.admin && (
             <button className={`${styles.buttondefault}`} onClick={() => window.location.replace('/u/users')} type="button">
@@ -394,3 +404,78 @@ function UserInfoList({ onClose }) {
     </>
   )
 }
+
+
+
+
+
+
+//push notifications:
+const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+
+async function subscribeToPush() {
+  const registration = await navigator.serviceWorker.getRegistration();
+  try {
+    Notification.requestPermission()
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlB64ToUint8Array(VAPID_PUBLIC_KEY)
+    });
+    postToServer('/api/add-subscription', subscription);
+    const data = {
+      "notis": true
+    };
+
+    await pb.collection('users').update(pb.authStore.model.id, data);
+    toast.info('Subscribed to notis')
+    setTimeout(() => {
+      window.location.reload()
+    }, 1500);
+
+  } catch (err) {
+    console.log(err)
+    return toast.error('Permision denied. Enable notifs')
+  }
+
+}
+
+async function unsubscribeFromPush() {
+  const registration = await navigator.serviceWorker.getRegistration();
+  const subscription = await registration.pushManager.getSubscription();
+  postToServer('/api/remove-subscription', {
+    endpoint: subscription.endpoint
+  });
+  await subscription.unsubscribe();
+  const data = {
+    "notis": false
+  };
+
+  await pb.collection('users').update(pb.authStore.model.id, data);
+  toast.info('Unsubbed from notis')
+  setTimeout(() => {
+    window.location.reload()
+  }, 1500);
+}
+
+async function postToServer(url, data) {
+  await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ data, user: { token: pb.authStore.token, id: pb.authStore.model.id } })
+  });
+}
+
+const urlB64ToUint8Array = (base64String) => {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+      .replace(/\-/g, '+')
+      .replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+};
