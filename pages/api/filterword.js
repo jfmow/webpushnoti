@@ -1,12 +1,11 @@
 import PocketBase from "pocketbase";
 const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETURL);
 pb.autoCancellation(false);
-import toxicity from "@tensorflow-models/toxicity";
 
 export default async function handler(request, response) {
-    if (request.method != 'POST') {
-        return response.status(405).send('Method not allowed');
-    }
+    //if (request.method != 'POST') {
+    //    return response.status(405).send('Method not allowed');
+    //}
     const profanityWords = [
         "ahole",
         "anus",
