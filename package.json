@@ -17,6 +17,8 @@
     "@editorjs/quote": "^2.5.0",
     "@editorjs/table": "^2.2.1",
     "@prisma/client": "^4.14.1",
+    "@tensorflow-models/toxicity": "^1.2.2",
+    "@tensorflow/tfjs": "^4.7.0",
     "compressorjs": "^1.2.1",
     "crypto-js": "^4.1.1",
     "express-rate-limit": "^6.7.0",

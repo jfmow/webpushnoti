@@ -1,10 +1,11 @@
 import PocketBase from "pocketbase";
 const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETURL);
 pb.autoCancellation(false);
+import toxicity from "@tensorflow-models/toxicity";
 
 export default async function handler(request, response) {
-    if(request.method != 'POST'){
-        return    response.status(405).send('Method not allowed');
+    if (request.method != 'POST') {
+        return response.status(405).send('Method not allowed');
     }
     const profanityWords = [
         "ahole",
@@ -462,12 +463,31 @@ export default async function handler(request, response) {
 
     // Split the input text into words
     const words = inputText.split(" ");
+    const toxicity = require("@tensorflow-models/toxicity");
+    await toxicity.load().then(async (model) => {
+        const sentences = words;
+        const predictions = await model.classify(sentences);
+        console.log(predictions);
+
+        // Check if any prediction has a match
+        const hasMatch = predictions.some(prediction => prediction.results.some(result => result.match));
+
+        if (hasMatch) {
+            console.log(sentences);
+            return response.status(406).json({ error: 'Your comment was flagged as harmful! Please refrain from using that type of language!' });
+        }
+    });
+
 
     // Loop through each word and check if it's in the profanity word list
     for (let i = 0; i < words.length; i++) {
         const word = words[i];
+
+
         for (let j = 0; j < profanityWords.length; j++) {
             const profanity = profanityWords[j];
+
+
             if (word.toLowerCase().includes(profanity.toLowerCase())) {
                 // If the word contains a profanity word, replace it with asterisks
                 const asterisks = "*".repeat(word.length);
@@ -482,10 +502,10 @@ export default async function handler(request, response) {
     const specialCharters = ["À", "à", "Á", "á", "Â", "â", "Ä", "ä", "Ã", "ã", "Ā", "ā", "Æ", "æ", "Ç", "ç", "Č", "č", "Ð", "ð", "È", "è", "É", "é", "Ê", "ê", "Ë", "ë", "Ē", "ē", "Ę", "ę", "Ğ", "ğ", "Ì", "ì", "Í", "í", "Î", "î", "Ï", "ï", "Ī", "ī", "Į", "į", "Ł", "ł", "Ñ", "ñ", "Ń", "ń", "Ò", "ò", "Ó", "ó", "Ô", "ô", "Ö", "ö", "Õ", "õ", "Ø", "ø", "Œ", "œ", "Ś", "ś", "Š", "š", "ß", "Ť", "ť", "Ū", "ū", "Ù", "ù", "Ú", "ú", "Û", "û", "Ü", "ü", "Ź", "ź", "Ž", "ž", "Þ", "þ", "Ə", "ə"]
     const specialCharsRegex = new RegExp(`[${specialCharters.join('')}]`);
     if (specialCharsRegex.test(filteredText)) {
-      return response.status(406).json({ error: 'No special characters allowed' });
+        return response.status(406).json({ error: 'No special characters allowed' });
     } else {
-      return response.status(200).json(filteredText);
+        return response.status(200).json(filteredText);
     }
-    
+
 
 }
